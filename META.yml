@@ -1,0 +1,13 @@
+--- 
+abstract: validate assembly stash with Rx (from JSON in kit)
+author: 
+  - Ricardo SIGNES <rjbs@cpan.org>
+generated_by: Dist::Zilla::Plugin::MetaYaml version 1.003
+license: perl
+name: Email-MIME-Kit-Validator-Rx
+requires: 
+  Data::Rx: 0.005
+  Data::Rx::TypeBundle::Perl: 0
+  Email::MIME::Kit: 2
+  JSON: 2
+version: 0.001
