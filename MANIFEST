@@ -1,9 +1,14 @@
+Changes
 LICENSE
 MANIFEST
 META.yml
 Makefile.PL
 README
+dist.ini
 lib/Email/MIME/Kit/Validator/Rx.pm
 t/assemble.t
-t/kits/test.mkit/manifest.json
-t/kits/test.mkit/rx.json
+t/kits/mux.mkit/manifest.json
+t/kits/mux.mkit/rx.json
+t/kits/path.mkit/manifest.json
+t/kits/path.mkit/rx.json
+t/kits/struct.mkit/manifest.json
