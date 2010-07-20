@@ -1,6 +1,7 @@
 Changes
 LICENSE
 MANIFEST
+META.json
 META.yml
 Makefile.PL
 README
@@ -12,3 +13,4 @@ t/kits/mux.mkit/rx.json
 t/kits/path.mkit/manifest.json
 t/kits/path.mkit/rx.json
 t/kits/struct.mkit/manifest.json
+t/release-pod-syntax.t

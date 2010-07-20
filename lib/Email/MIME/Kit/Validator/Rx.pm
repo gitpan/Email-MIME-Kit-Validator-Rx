@@ -1,6 +1,7 @@
 package Email::MIME::Kit::Validator::Rx;
-our $VERSION = '0.003';
-
+BEGIN {
+  $Email::MIME::Kit::Validator::Rx::VERSION = '0.102010';
+}
 use Moose;
 with 'Email::MIME::Kit::Role::Validator';
 # ABSTRACT: validate assembly stash with Rx (from JSON in kit)
@@ -22,7 +23,6 @@ has type_plugins => (
   is  => 'ro',
   isa => 'ArrayRef[Str]',
   default    => sub { [] },
-  auto_deref => 1,
 );
 
 has rx => (
@@ -39,7 +39,7 @@ sub build_default_rx_object {
     prefix       => $self->prefix,
   });
 
-  for my $plugin ($self->all_default_type_plugins, $self->type_plugins) {
+  for my $plugin ($self->all_default_type_plugins, @{ $self->type_plugins }) {
     eval "require $plugin; 1" or die;
     $rx->register_type_plugin($plugin);
   }
@@ -150,7 +150,6 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
-
 =pod
 
 =head1 NAME
@@ -159,7 +158,7 @@ Email::MIME::Kit::Validator::Rx - validate assembly stash with Rx (from JSON in 
 
 =head1 VERSION
 
-version 0.003
+version 0.102010
 
 =head1 SYNOPSIS
 
@@ -168,13 +167,13 @@ allows an Rx schema to be used to validate kit assembly data.
 
 A simple mkit's manifest might include the following:
 
-    {
-      "renderer" : "TT",
-      "validator": "Rx",
-      "header"   : [ ... mail headers ... ],
-      "type"     : "text/plain",
-      "path"     : "path/to/template.txt"
-    }
+  {
+    "renderer" : "TT",
+    "validator": "Rx",
+    "header"   : [ ... mail headers ... ],
+    "type"     : "text/plain",
+    "path"     : "path/to/template.txt"
+  }
 
 In this simple configuration, the use of "Rx" as the validator will load the
 plugin in its simplest configuration.  It will look for a file called
@@ -185,22 +184,22 @@ More complex configurations are simple.
 
 This configuration supplies an alternate filename for the JSON file:
 
-    "validator": [ "Rx", { "path": "rx-schema.json" } ],
+  "validator": [ "Rx", { "path": "rx-schema.json" } ],
 
 This configuration supplies the schema definition inline:
 
-    "validator": [
-      "Rx",
-      {
-        "schema": {
-          "type"   : "//rec",
-          "required": {
-            "subject": "//str",
-            "rcpt"   : { "type": "/perl/obj", "isa": "Email::Address" }
-          }
+  "validator": [
+    "Rx",
+    {
+      "schema": {
+        "type"   : "//rec",
+        "required": {
+          "subject": "//str",
+          "rcpt"   : { "type": "/perl/obj", "isa": "Email::Address" }
         }
       }
-    ]
+    }
+  ]
 
 Notice, above, the C</perl/> prefix.  By default,
 L<Data::Rx::TypeBundle::Perl|Data::Rx::TypeBundle::Perl> is loaded along with
@@ -211,32 +210,31 @@ They will be combined with the logic named by the combine argument.  In this
 release, only "all" is valid, and will require all schemata to match.  Here is
 an example:
 
-    "validator": [
-      "Rx",
-      {
-        "combine": "all",
-        "path"   : "rx.json",
-        "schema" : [
-          { "type": "//rec", "rest": "//any", "required": { "foo": "//int" } },
-          { "type": "//rec", "rest": "//any", "required": { "bar": "//int" } },
-        ]
-      }
-    ]
+  "validator": [
+    "Rx",
+    {
+      "combine": "all",
+      "path"   : "rx.json",
+      "schema" : [
+        { "type": "//rec", "rest": "//any", "required": { "foo": "//int" } },
+        { "type": "//rec", "rest": "//any", "required": { "bar": "//int" } },
+      ]
+    }
+  ]
 
 This definition will create an C<//all> schema with three entries: the schema
 found in F<rx.json> and the two schemata given in the array value of C<schema>.
 
 =head1 AUTHOR
 
-  Ricardo SIGNES <rjbs@cpan.org>
+Ricardo SIGNES <rjbs@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2009 by Ricardo SIGNES.
+This software is copyright (c) 2010 by Ricardo SIGNES.
 
 This is free software; you can redistribute it and/or modify it under
-the same terms as perl itself.
+the same terms as the Perl 5 programming language system itself.
 
-=cut 
-
+=cut
 
