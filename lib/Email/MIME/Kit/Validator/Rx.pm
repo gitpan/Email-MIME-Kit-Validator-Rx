@@ -1,16 +1,16 @@
 package Email::MIME::Kit::Validator::Rx;
-BEGIN {
-  $Email::MIME::Kit::Validator::Rx::VERSION = '0.102010';
+{
+  $Email::MIME::Kit::Validator::Rx::VERSION = '0.200000';
 }
 use Moose;
 with 'Email::MIME::Kit::Role::Validator';
 # ABSTRACT: validate assembly stash with Rx (from JSON in kit)
 
 use Data::Rx 0.007;
-use Data::Rx::TypeBundle::Perl 0.002;
-use Moose::Util::TypeConstraints;
-
+use Data::Rx::TypeBundle::Perl 0.005;
 use JSON;
+use Moose::Util::TypeConstraints;
+use Try::Tiny;
 
 
 has prefix => (
@@ -138,8 +138,12 @@ sub _do_goofy_schema_initialization {
 
 sub validate {
   my ($self, $stash) = @_;
-  Carp::confess("assembly parameters don't pass validation")
-    unless $self->schema->check($stash);
+
+  try {
+    $self->schema->assert_valid($stash);
+  } catch {
+    Carp::confess("assembly parameters don't pass validation: $_");
+  };
 
   return 1;
 }
@@ -158,7 +162,7 @@ Email::MIME::Kit::Validator::Rx - validate assembly stash with Rx (from JSON in 
 
 =head1 VERSION
 
-version 0.102010
+version 0.200000
 
 =head1 SYNOPSIS
 
@@ -231,7 +235,7 @@ Ricardo SIGNES <rjbs@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2010 by Ricardo SIGNES.
+This software is copyright (c) 2012 by Ricardo SIGNES.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
