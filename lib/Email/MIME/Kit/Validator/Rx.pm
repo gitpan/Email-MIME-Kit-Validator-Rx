@@ -1,6 +1,6 @@
 package Email::MIME::Kit::Validator::Rx;
 {
-  $Email::MIME::Kit::Validator::Rx::VERSION = '0.200000';
+  $Email::MIME::Kit::Validator::Rx::VERSION = '0.200001';
 }
 use Moose;
 with 'Email::MIME::Kit::Role::Validator';
@@ -154,6 +154,7 @@ __PACKAGE__->meta->make_immutable;
 1;
 
 __END__
+
 =pod
 
 =head1 NAME
@@ -162,7 +163,7 @@ Email::MIME::Kit::Validator::Rx - validate assembly stash with Rx (from JSON in 
 
 =head1 VERSION
 
-version 0.200000
+version 0.200001
 
 =head1 SYNOPSIS
 
@@ -235,10 +236,9 @@ Ricardo SIGNES <rjbs@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2012 by Ricardo SIGNES.
+This software is copyright (c) 2013 by Ricardo SIGNES.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-
